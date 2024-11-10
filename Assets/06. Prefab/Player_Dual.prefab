@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 5958455807564152938}
   m_Layer: 3
   m_Name: Player_Dual
-  m_TagString: Untagged
+  m_TagString: Human
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -250,7 +250,6 @@ MonoBehaviour:
   mapMaxBounds: {x: 53.2, y: 1.3}
   _Dead: 0
   _CurrState: 0
-  _CurrDir: {x: 0, y: -1}
   _IsWalk: 0
   arrow: {fileID: 8715883189541085358}
 --- !u!114 &9194704116235038489

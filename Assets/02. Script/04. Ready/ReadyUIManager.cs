@@ -13,6 +13,7 @@ public class ReadyUIManager : UIManager
     [SerializeField] TextMeshProUGUI modeTMP;
     [SerializeField] TextMeshProUGUI playerCountTMP;
 
+
     protected override void Start()
     {
         base.Start();

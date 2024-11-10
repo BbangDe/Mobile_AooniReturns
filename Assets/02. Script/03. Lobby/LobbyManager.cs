@@ -19,8 +19,11 @@ public class LobbyManager : ViewManager, INetworkRunnerCallbacks
         App.Manager.Sound.PlayBGM("BGM_Lobby");
     }
 
+    
+
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
+        Debug.Log($"세선 리스트 업데이트");
         App.Manager.UI.GetPanel<JoinRoomPanel>().SetRoomList(sessionList);
     }
 

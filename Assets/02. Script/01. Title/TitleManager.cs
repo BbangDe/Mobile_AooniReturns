@@ -3,6 +3,8 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using Fusion;
+using TMPro;
+using System.Collections;
 
 public enum ELoginError
 {
@@ -39,6 +41,9 @@ public class TitleManager : ViewManager
 {
     [SerializeField] bool autoLogin;
 
+    [SerializeField] GameObject AlertPanel;
+    [SerializeField] TMP_Text AlertText;
+
     private readonly string defaultEmail = "@aooni.com";
 
     private bool isConnectionBusy = false;
@@ -71,26 +76,47 @@ public class TitleManager : ViewManager
         if (ID == null || ID.Length < 3)
         {
             _loginErrorHandler(ELoginError.InvalidID);
+
+            OpenPopup("아이디(3글자이상)를 입력하세요");
+
             return false;
         }
 
         if (PW == null || PW.Length < 6)
         {
             _loginErrorHandler(ELoginError.InvalidPW);
+
+            OpenPopup("비밀번호(6글자이하)를 입력하세요");
+
             return false;
         }
 
         Login(ID, PW, () =>
+        {
+            StartCoroutine(LoginProcess(_loadErrorHandler));
+        },
+        _loginErrorHandler);
+
+        return true;
+    }
+
+    IEnumerator LoginProcess(Action<ELoadError> _loadErrorHandler)
+    {
+        while(isConnectionBusy)
+        {
+            yield return null;
+        }
+
+        if(isLoggedIn)
         {
             LoadData(() =>
             {
                 App.LoadScene(SceneName.Notice);
             },
             _loadErrorHandler);
-        },
-        _loginErrorHandler);
+        }
 
-        return true;
+        yield return null;
     }
 
     private void Login(string ID, string PW,
@@ -116,31 +142,41 @@ public class TitleManager : ViewManager
         },
         (error) =>
         {
+            App.UI.Title.GetPanel<LoadingPanel>().ClosePanel();
             isConnectionBusy = false;
-            Debug.LogError(error.Error);
 
             switch (error.Error)
             {
                 case PlayFabErrorCode.AccountNotFound:
                     _loginErrorHandler(ELoginError.AccountNotExist);
+                    OpenPopup("계정오류 입니다.");
                     break;
 
                 case PlayFabErrorCode.InvalidUsername:
                 case PlayFabErrorCode.InvalidEmailAddress:
                     _loginErrorHandler(ELoginError.InvalidID);
+                    OpenPopup("아이디를 다시 확인해주세요");
                     break;
 
                 case PlayFabErrorCode.InvalidEmailOrPassword:
                 case PlayFabErrorCode.InvalidPassword:
                     _loginErrorHandler(ELoginError.InvalidPW);
+                    OpenPopup("비밀번호를 다시 확인해주세요.");
                     break;
 
                 default:
                     _loginErrorHandler((ELoginError)error.Error);
+                    OpenPopup("로그인 에러");
                     break;
             }
         });
     }
+
+    private void OpenPopup(string content)
+    {
+        AlertText.text = content;
+        AlertPanel.SetActive(true);
+    } 
 
     private void LoadData(Action _loadDataCallback, Action<ELoadError> _loadDataErrorHandler)
     {

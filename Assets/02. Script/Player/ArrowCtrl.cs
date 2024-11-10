@@ -22,7 +22,7 @@ public class ArrowCtrl : NetworkBehaviour
 
     public void FireArrow()
     {
-        RPC_FireArrow(myCharCtrl.CurrDir);
+        RPC_FireArrow(myCharCtrl.LastChangeDir);
     }
 
     [Rpc]
@@ -80,23 +80,28 @@ public class ArrowCtrl : NetworkBehaviour
     {
         if (!App.Manager.Game.IsGamePlay)
         {
-            return;
+            //return;
         }
 
         if (collision.CompareTag("Oni"))
         {
             if (collision.TryGetComponent<OniCtrl>(out var oniCtrl))
-            {
+            {/*
                 if (!oniCtrl.IsInvincible)
                 {
+                    App.Manager.Sound.PlaySFX("SFX_Game_Slash");
+
                     transform.DOKill();
 
                     gameObject.SetActive(false);
                     transform.localPosition = startPosition;
 
                     oniCtrl.Attacked(10);
-                }
+                }*/
+                Debug.Log($"{gameObject.name} 활 트리거 들어옴");
+                App.Manager.Sound.PlaySFX("SFX_Game_Slash");
             }
         }
     }
+
 }

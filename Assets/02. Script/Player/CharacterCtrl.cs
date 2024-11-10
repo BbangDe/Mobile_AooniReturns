@@ -56,6 +56,7 @@ public class CharacterCtrl : NetworkBehaviour
     [Networked, OnChangedRender(nameof(OnChangeState))] public CharacterType CurrState { get; private set; } = CharacterType.Human;
     //[Networked, OnChangedRender(nameof(OnChangeDir))] public Vector2 CurrDir { get; private set; } = new Vector2(0, -1);
     public Vector2 CurrDir { get; private set; } = new Vector2(0, -1);
+    public Vector2 LastChangeDir { get; private set; } = new Vector2(0, -1);
     [Networked, OnChangedRender(nameof(OnChangeWalk))] public bool IsWalk { get; private set; } = false;
 
     private Rigidbody2D rb2d;
@@ -493,6 +494,8 @@ public class CharacterCtrl : NetworkBehaviour
     {
         currAnimator.SetFloat("MoveX", CurrDir.x);
         currAnimator.SetFloat("MoveY", CurrDir.y);
+
+        LastChangeDir = CurrDir;
     }
 
     private void OnChangeWalk()

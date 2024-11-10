@@ -32,13 +32,15 @@ public abstract class OniCtrl : NetworkBehaviour
     {
         if (!App.Manager.Game.IsGamePlay)
         {
-            return;
+            //return;
         } 
 
         if (collision.CompareTag("Human"))
         {
             if (collision.transform.parent.TryGetComponent<CharacterCtrl>(out var charCtrl))
             {
+                Debug.Log($"{gameObject.name} 사람 트리거 들어옴");
+                App.Manager.Sound.PlaySFX("SFX_Game_Miss");
                 InteractHuman(charCtrl);
             }
         }

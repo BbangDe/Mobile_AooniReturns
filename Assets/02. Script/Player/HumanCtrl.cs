@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using TMPro;
 
 public class HumanCtrl : NetworkBehaviour
 {
