@@ -15,7 +15,7 @@ public class ReadyManager : SimManager, IPlayerJoined, IPlayerLeft
 
     private void Start()
     {
-        var modeType = App.Manager.Network.Session.Properties["GameMode"];
+        var modeType = App.Manager.Network.Runner.SessionInfo.Properties["GameMode"];
         string modeTxt = GetModeName(modeType);
 
         switch (modeTxt)
@@ -37,7 +37,7 @@ public class ReadyManager : SimManager, IPlayerJoined, IPlayerLeft
         App.Manager.Sound.StopBGM();
         App.Manager.Sound.PlaySFX("SFX_Game_Door");
 
-        Runner.SpawnAsync(playerPrefab, Vector3.zero + (Vector3.left * 0.5f) + (Vector3.up * 0.5f), Quaternion.identity,
+        Runner.SpawnAsync(playerPrefab, Vector3.zero + (Vector3.left * 0.5f) + (Vector3.up * 0.4f), Quaternion.identity,
             Runner.LocalPlayer, null, NetworkSpawnFlags.SharedModeStateAuthLocalPlayer);
     }
 

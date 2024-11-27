@@ -7,6 +7,8 @@ using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public enum CharacterType
 {
@@ -34,14 +36,11 @@ public class CharacterCtrl : NetworkBehaviour
     //==================================
 
     // 241029 외주 수정 ===================================
+    public float walk_speed;
     bool turnEnable;
+    bool canWalk;
     bool nowWalk;
 
-    public float walkSpeed;
-    public float walkCount;
-    float nowWalkCount;
-    float oneStep;
-    float walkTimeCount;
     int now_dir;
 
     Vector3 next_pos;
@@ -113,10 +112,7 @@ public class CharacterCtrl : NetworkBehaviour
         // 241029 외주 수정 ===================================
         turnEnable = true;
         nowWalk = false;
-
-        nowWalkCount = 0;
-        oneStep = gridSize / walkCount;
-        walkTimeCount = 1f;
+        canWalk = true;
 
         now_dir = 0;
         // 241029 외주 수정 ===================================
@@ -289,6 +285,61 @@ public class CharacterCtrl : NetworkBehaviour
 
 
         // 241029 외주 수정 ===================================
+
+        CurrDir = lastInputDir.normalized;
+
+        // 상하좌우 방향으로만 이동
+        if (Mathf.Abs(CurrDir.x) > Mathf.Abs(CurrDir.y))
+        {
+            Vector2 edit_dir = CurrDir;
+            edit_dir.y = 0;
+            CurrDir = edit_dir; // 수직 이동을 0으로 설정
+        }
+        else
+        {
+            Vector2 edit_dir = CurrDir;
+            edit_dir.x = 0;
+            CurrDir = edit_dir; // 수평 이동을 0으로 설정
+        }
+
+        if (canWalk)
+        {
+            if (CurrDir.x != 0 || CurrDir.y != 0)
+            {
+                if(CurrDir.y != 0)
+                {
+                    if(CurrDir.y < 0)
+                    {
+                        next_pos = transform.position + (Vector3.down * gridSize);
+                        now_dir = 4
+                            ;
+                    }
+                    else
+                    {
+                        next_pos = transform.position + (Vector3.up * gridSize);
+                        now_dir = 3;
+                    }
+                }
+                else
+                {
+                    if (CurrDir.x < 0)
+                    {
+                        next_pos = transform.position + (Vector3.left * gridSize);
+                        now_dir = 2;
+                    }
+                    else
+                    {
+                        next_pos = transform.position + (Vector3.right * gridSize);
+                        now_dir = 1;
+                    }
+                }
+
+                canWalk = false;
+                StartCoroutine(MoveCoroutine());
+            }
+        }
+
+        /*
         if(turnEnable)
         {
             CurrDir = lastInputDir.normalized;  // 241029 외주 수정
@@ -322,8 +373,9 @@ public class CharacterCtrl : NetworkBehaviour
                 turnEnable = false;
             }
         }
+        */
 
-        MoveCharacter();
+        //MoveCharacter();
         // 241029 외주 수정 ===================================
 
 
@@ -370,6 +422,15 @@ public class CharacterCtrl : NetworkBehaviour
     #region ADDED: 그리드 단위로 캐릭터 이동
     void MoveCharacter()
     {
+        if (!nowWalk)
+        {
+            return;
+        }
+
+        rb2d.MovePosition(rb2d.position + CurrDir * speed * Time.fixedDeltaTime);
+        
+        //transform.MovePosition(rb.position + moveDirection * moveSpeed * Time.fixedDeltaTime);
+        /*
         if(!nowWalk)
         {
             return;
@@ -409,6 +470,7 @@ public class CharacterCtrl : NetworkBehaviour
                 //transform.position = next_pos;
             }
         }
+        */
     }
 
     void MoveTowardsGrid()
@@ -451,7 +513,7 @@ public class CharacterCtrl : NetworkBehaviour
         }
         // 241029 외주 수정 ===================================
 
-        transform.position = Vector3.Lerp(transform.position, targetPos, walkSpeed);
+        //transform.position = Vector3.Lerp(transform.position, targetPos, walkSpeed);
 
         //transform.position = Vector3.MoveTowards(transform.position, targetPos, 0.25f);
 
@@ -485,6 +547,70 @@ public class CharacterCtrl : NetworkBehaviour
         }
         
     }
+
+    IEnumerator MoveCoroutine()
+    {
+        float now_pos = 0f;
+        float new_pos = 0f;
+
+        if(now_dir == 1 || now_dir == 2)
+        {
+            now_pos = transform.position.x;
+            new_pos = next_pos.x;
+        }
+        else
+        {
+            now_pos = transform.position.y;
+            new_pos = next_pos.y;
+        }
+
+        OnChangeDir();
+
+        if (now_dir == 1 || now_dir == 3)
+        {
+            while (now_pos < new_pos)
+            {
+                if (now_dir == 1)
+                {
+                    transform.position += (Vector3.right * walk_speed * Time.deltaTime);
+                    now_pos = transform.position.x;
+                }
+                else
+                {
+                    transform.position += (Vector3.up * walk_speed * Time.deltaTime);
+                    now_pos = transform.position.y;
+                }
+
+                Debug.Log(transform.position);
+                yield return null;
+            }
+        }
+        else
+        {
+            while (now_pos > new_pos)
+            {
+                if (now_dir == 2)
+                {
+                    transform.position += (Vector3.left * walk_speed * Time.deltaTime);
+                    now_pos = transform.position.x;
+                }
+                else
+                {
+                    transform.position += (Vector3.down * walk_speed * Time.deltaTime);
+                    now_pos = transform.position.y;
+                }
+
+                yield return null;
+            }
+        }
+        transform.position = next_pos;
+        now_dir = 0;
+
+        canWalk = true;
+
+        yield return null;
+    }
+
     #endregion
 
 

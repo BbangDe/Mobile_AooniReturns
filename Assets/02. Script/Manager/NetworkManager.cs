@@ -6,6 +6,7 @@ using Fusion;
 using Fusion.Photon.Realtime;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 
 public enum EScene : byte
 {
@@ -25,13 +26,14 @@ public class NetworkManager : Manager
     // NetworkRunnmer.CloudServices
     // CloudServices.CloudCommunicator
     // CloudCommnuicator.FusionRelayClient -> Realtime.LoadBalancingClient
-    public NetworkRunner Runner => App.Runner;
+    //public NetworkRunner Runner => App.Runner;
+    public NetworkRunner Runner;
     public SessionInfo Session => App.Runner.SessionInfo;
 
     protected override void Awake()
     {
         base.Awake();
-
+        
         netSceneManager = GetComponent<INetworkSceneManager>();
         netObjectProvider = GetComponent<INetworkObjectProvider>();
     }
@@ -48,7 +50,10 @@ public class NetworkManager : Manager
 
     public void JoinMatch(SessionInfo _info, Action _onComplete = null)
     {
-        StartCoroutine(JoinMatchInternal(_info, _onComplete));
+        if(_info.PlayerCount < _info.MaxPlayers)
+        {
+            StartCoroutine(JoinMatchInternal(_info, _onComplete));
+        }
     }
 
     public void LeaveMatch(Action _onComplete = null)
@@ -80,7 +85,8 @@ public class NetworkManager : Manager
 
     private IEnumerator JoinLobbyInternal(Action _onComplete)
     {
-        var joinTask = Runner.JoinSessionLobby(SessionLobby.ClientServer);
+        /*
+        var joinTask = Runner.JoinSessionLobby(SessionLobby.Shared, "default");
 
         yield return new WaitUntil(() => joinTask.IsCompleted);
 
@@ -91,16 +97,18 @@ public class NetworkManager : Manager
             Debug.LogError("Failed to join lobby. Exiting...");
             LeaveMatch();
             yield break;
-        }
+        }*/
 
         SceneManager.LoadScene((int)EScene.Lobby);
-
+        
+        yield return null;
+        /*
         try { _onComplete?.Invoke(); }
         catch (Exception error)
         {
             Debug.LogError("Exception was thrown while invoking OnComplete of JoinLobby. " +
                 $"{error.Message}\n{error.StackTrace}");
-        }
+        }*/
     }
 
     private IEnumerator CreateMatchInternal(string _roomName, string _password, ModeType _mode, Action _onComplete)

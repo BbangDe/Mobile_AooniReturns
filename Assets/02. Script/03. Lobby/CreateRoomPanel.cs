@@ -23,6 +23,9 @@ public class CreateRoomPanel : UIBase
 
     [SerializeField] string[] default_room_names;
 
+    [SerializeField] GameObject alertPanel;
+    [SerializeField] TMP_Text alertText;
+
     private ModeType selectedMode;
 
     public override UIState GetUIState() => UIState.CreateRoom;
@@ -46,7 +49,7 @@ public class CreateRoomPanel : UIBase
     {
         base.OpenPanel();
 
-        OnClickMode(0);
+        OnClickMode(1);
     }
 
     public override void ClosePanel()
@@ -59,6 +62,13 @@ public class CreateRoomPanel : UIBase
     private void OnClickMode(int _index)
     {
         selectedMode = (ModeType)_index;
+
+        if(_index != 1)
+        {
+            alertPanel.SetActive(true);
+            alertText.text = "개발중인 모드입니다.";
+            return;
+        }
 
         for (int i = 0; i < modeBtns.Length; i++)
         {

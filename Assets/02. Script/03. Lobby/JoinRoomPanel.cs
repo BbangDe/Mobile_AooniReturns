@@ -8,6 +8,8 @@ public class JoinRoomPanel : UIBase
     [SerializeField] Transform roomListParent;
     private JoinRoomBtn[] roomBtns;
 
+    public List<SessionInfo> sessionList;
+
     public override UIState GetUIState() => UIState.JoinRoom;
 
     public override bool IsAddUIStack() => true;
@@ -22,6 +24,8 @@ public class JoinRoomPanel : UIBase
     public void SetRoomList(List<SessionInfo> _sessionList)
     {
         int i = 0;
+
+        sessionList = _sessionList;
 
         Debug.Log($"접속가능방 수 : {_sessionList.Count}");
         for (; i < _sessionList.Count; i++)

@@ -13,6 +13,9 @@ public class ReadyUIManager : UIManager
     [SerializeField] TextMeshProUGUI modeTMP;
     [SerializeField] TextMeshProUGUI playerCountTMP;
 
+    [SerializeField] GameObject alertPanel;
+    [SerializeField] TMP_Text alertText;
+
 
     protected override void Start()
     {
@@ -36,7 +39,18 @@ public class ReadyUIManager : UIManager
 
     private void OnClickStart()
     {
-        App.Manager.Network.StartGame();
+        var currSession = App.Manager.Network.Runner.SessionInfo;
+
+        if(currSession.PlayerCount > 1)
+        {
+            App.Manager.Network.StartGame();
+        }
+        else
+        {
+            alertText.text = "2명 이상이어야 플레이 가능합니다";
+            alertPanel.SetActive(true);
+        }
+        
     }
 
     private void OnClickExit()
@@ -46,11 +60,11 @@ public class ReadyUIManager : UIManager
 
     private void SetRoomText()
     {
-        var currSession = App.Manager.Network.Session;
+        var currSession = App.Manager.Network.Runner.SessionInfo;
 
         roomNameTMP.text = string.Format("[대기중] {0}", currSession.Name);
 
-        var modeType = App.Manager.Network.Session.Properties["GameMode"];
+        var modeType = App.Manager.Network.Runner.SessionInfo.Properties["GameMode"];
         modeTMP.text = GetModeName(modeType);
     }
 
@@ -65,7 +79,7 @@ public class ReadyUIManager : UIManager
 
     public void SetPlayerCount()
     {
-        var currSession = App.Manager.Network.Session;
+        var currSession = App.Manager.Network.Runner.SessionInfo;
 
         playerCountTMP.text = string.Format("{0}/{1}", currSession.PlayerCount, currSession.MaxPlayers);
     }

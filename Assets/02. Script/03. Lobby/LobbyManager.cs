@@ -7,23 +7,33 @@ using System;
 
 public class LobbyManager : ViewManager, INetworkRunnerCallbacks
 {
+    public static NetworkRunner runnerInstance;
     protected override void Awake()
     {
         base.Awake();
 
-        App.Manager.Network.Runner.AddCallbacks(this);
+        //App.Manager.Network.Runner.AddCallbacks(this);
+        runnerInstance = gameObject.GetComponent<NetworkRunner>();
+        if(runnerInstance == null)
+        {
+            runnerInstance = gameObject.AddComponent<NetworkRunner>();
+        }
+
+        App.Manager.Network.Runner = runnerInstance;
     }
 
     private void Start()
     { 
         App.Manager.Sound.PlayBGM("BGM_Lobby");
+        runnerInstance.JoinSessionLobby(SessionLobby.Shared, "default");
     }
 
     
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        Debug.Log($"세선 리스트 업데이트");
+        Debug.Log($"세선 리스트 업데이트 {sessionList.Count}개 세션");
+
         App.Manager.UI.GetPanel<JoinRoomPanel>().SetRoomList(sessionList);
     }
 
