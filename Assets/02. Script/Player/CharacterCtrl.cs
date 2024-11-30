@@ -71,6 +71,9 @@ public class CharacterCtrl : NetworkBehaviour
     private float speedTarget;
     public ArrowCtrl arrow;
 
+    public bool canChange;
+    public bool nowChange;
+
     public float Speed
     {
         get => speed;
@@ -127,6 +130,22 @@ public class CharacterCtrl : NetworkBehaviour
         //=======================================================================================================================
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "BucketTrigger")
+        {
+            canChange = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "BucketTrigger")
+        {
+            canChange = false;
+        }
+    }
+
     public override void Spawned()
     {
         Debug.LogError(Object.Id);
@@ -175,6 +194,25 @@ public class CharacterCtrl : NetworkBehaviour
 
                 humanCtrl.gameObject.SetActive(false);
                 break;
+        }
+    }
+
+    public void ChangeBarrel()
+    {
+        if(nowChange)
+        {
+            nowChange = false;
+            characterCollider.enabled = true;
+
+            humanCtrl.gameObject.SetActive(true);
+        }
+        else if(canChange)
+        {
+            canChange = false;
+            characterCollider.enabled = false;
+            nowChange = true;
+
+            humanCtrl.gameObject.SetActive(false);
         }
     }
 

@@ -55,4 +55,24 @@ public class SkillPanel : UIBase
         arrowBtn.enabled = true;
         arrowBtn.image.color = Color.white;
     }
+
+    private IEnumerator WaitForCoolTime2()
+    {
+        barrelBtn.enabled = false;
+        barrelBtn.image.color = new Color(1, 1, 1, 0.5f);
+
+        float time = 0;
+
+        while (time <= 1)
+        {
+            time += Time.deltaTime;
+
+            barrelBtn.image.fillAmount = time / 1f;
+
+            yield return null;
+        }
+
+        barrelBtn.enabled = true;
+        barrelBtn.image.color = Color.white;
+    }
 }

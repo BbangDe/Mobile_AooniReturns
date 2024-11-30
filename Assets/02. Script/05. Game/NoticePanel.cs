@@ -50,15 +50,18 @@ public class NoticePanel : UIBase
         //    .AppendInterval(1f)
         //    .Append(noticeRect.DOScale(Vector3.zero, 0.25f));
 
+        Debug.Log("여기 니 그럼");
 
         noticeRect.DOKill();
 
-        noticeRect.transform.localScale = Vector3.zero;
-        noticeRect.DOScale(Vector3.one, 0.25f);
+        //noticeRect.transform.localScale = Vector3.zero;
+        noticeRect.transform.localScale = Vector3.one;
+        //noticeRect.DOScale(Vector3.one, 0.25f);
 
         yield return new WaitForSeconds(1.25f);
 
-        noticeRect.DOScale(Vector3.zero, 0.25f);
+        //noticeRect.DOScale(Vector3.zero, 0.25f);
+        noticeRect.transform.localScale = Vector3.zero;
     }
 
     public void NoticeBeforeGameStart()

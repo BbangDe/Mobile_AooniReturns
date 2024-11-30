@@ -10,6 +10,11 @@ public class BombManager : GameManager
 
         MaxRoundCount = 3;
         GameTime = 60;
+
+        for(int i=0; i < App.Manager.Player.characterList.Count; i++)
+        {
+            Debug.Log($"{App.Manager.Player.characterList[i].name}");
+        }
     }
 
     protected override bool CheckVictoryCondition()

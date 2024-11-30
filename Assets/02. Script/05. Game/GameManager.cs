@@ -28,6 +28,15 @@ public abstract class GameManager : NetManager
     private GameState currState = GameState.None;
     private float internalTime = 1;
 
+    public bool count_sfx_ok;
+    public int oni_count = 0;
+
+    private void Start()
+    {
+        count_sfx_ok = true;
+        oni_count = 0;
+    }
+
     public override void Spawned()
     {
         App.Manager.Sound.PlayBGM("BGM_Game");
@@ -65,6 +74,13 @@ public abstract class GameManager : NetManager
         do
         {
             internalTime -= Time.deltaTime;
+
+            if(internalTime <= 5 && count_sfx_ok)
+            {
+                count_sfx_ok = false;
+                App.Manager.Sound.PlaySFX("SFX_54321");
+            }
+
             if (internalTime > 0f)
             {
                 yield return null;
@@ -184,6 +200,11 @@ public abstract class GameManager : NetManager
             return;
         }
 
+        oni_count++;
+        if(oni_count == 1)
+        {
+            App.Manager.Sound.PlaySFX("SFX_A5_09285");
+        }
         App.Manager.Player.SetRandomOni();
     }
 

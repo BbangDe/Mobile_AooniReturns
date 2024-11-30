@@ -225,7 +225,10 @@ public class NetworkManager : Manager
 
         yield return new WaitUntil(() => loadTask.IsDone);
 
-        try { _onComplete?.Invoke(); }
+        try { 
+            _onComplete?.Invoke();
+            App.Manager.Sound.PlaySFX("SFX_victory");
+        }
         catch (Exception error)
         {
             Debug.LogError("Exception was thrown while invoking OnComplete of ShowResult. " +
