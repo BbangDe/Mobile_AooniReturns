@@ -32,8 +32,6 @@ public class LobbyManager : ViewManager, INetworkRunnerCallbacks
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        Debug.Log($"세선 리스트 업데이트 {sessionList.Count}개 세션");
-
         App.Manager.UI.GetPanel<JoinRoomPanel>().SetRoomList(sessionList);
     }
 

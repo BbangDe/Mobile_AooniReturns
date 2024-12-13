@@ -7180,7 +7180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7064120975507711429, guid: a07d7ed1f7e2ab74393c9c0678c19fd8, type: 3}
       propertyPath: SFX.Array.size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7064120975507711429, guid: a07d7ed1f7e2ab74393c9c0678c19fd8, type: 3}
       propertyPath: SFX.Array.data[0].clip
@@ -7229,6 +7229,22 @@ PrefabInstance:
     - target: {fileID: 7064120975507711429, guid: a07d7ed1f7e2ab74393c9c0678c19fd8, type: 3}
       propertyPath: SFX.Array.data[5].name
       value: SFX_A5_09285
+      objectReference: {fileID: 0}
+    - target: {fileID: 7064120975507711429, guid: a07d7ed1f7e2ab74393c9c0678c19fd8, type: 3}
+      propertyPath: SFX.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d5c87ba403bd35247a949397a1a5e467, type: 3}
+    - target: {fileID: 7064120975507711429, guid: a07d7ed1f7e2ab74393c9c0678c19fd8, type: 3}
+      propertyPath: SFX.Array.data[6].name
+      value: dungeon2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7064120975507711429, guid: a07d7ed1f7e2ab74393c9c0678c19fd8, type: 3}
+      propertyPath: SFX.Array.data[7].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: c9047e7bc3afea34eb37b80ce9ac4caf, type: 3}
+    - target: {fileID: 7064120975507711429, guid: a07d7ed1f7e2ab74393c9c0678c19fd8, type: 3}
+      propertyPath: SFX.Array.data[7].name
+      value: horor-b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

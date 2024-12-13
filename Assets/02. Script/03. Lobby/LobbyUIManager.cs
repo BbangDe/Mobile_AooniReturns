@@ -29,12 +29,14 @@ public class LobbyUIManager : UIManager
 
         rankBtn.onClick.AddListener(NowBuilding);
         clanBtn.onClick.AddListener(NowBuilding);
-
+        //createRoomBtn.onClick.AddListener(NowBuilding);
+        
         createRoomBtn.onClick.AddListener(() =>
         {
             GetPanel<CreateRoomPanel>().OpenPanel();
             GetPanel<JoinRoomPanel>().ClosePanel();
         });
+        
     }
 
     private void OnClickCafe()

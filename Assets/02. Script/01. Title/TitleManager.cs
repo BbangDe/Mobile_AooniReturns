@@ -5,6 +5,8 @@ using System;
 using Fusion;
 using TMPro;
 using System.Collections;
+using System.Text.RegularExpressions;
+using UnityEngine.UI;
 
 public enum ELoginError
 {
@@ -57,9 +59,9 @@ public class TitleManager : ViewManager
         if (autoLogin)
         {
 #if UNITY_EDITOR
-            TryLogin("daun1124", "123456", null, null);
+            //TryLogin("daun1124", "123456", null, null);
 #else
-            TryLogin("ekdms", "123456", null, null);
+            //TryLogin("ekdms", "123456", null, null);
 #endif
         }
     }
@@ -231,36 +233,57 @@ public class TitleManager : ViewManager
         if (ID == null || ID.Length < 2)
         {
             _registerErrorHandler(ERegisterError.InvalidID);
+            OpenPopup("아이디를 2글자 이상 입력해주세요.");
             return false;
         }
 
         if (PW == null || PW.Length < 6)
         {
             _registerErrorHandler(ERegisterError.InvalidPW);
+            OpenPopup("비밀번호를 6글자 이상 입력해주세요.");
             return false;
         }
 
         if (PWCheck == null || PWCheck.Length < 6)
         {
             _registerErrorHandler(ERegisterError.InvalidPWCheck);
+            OpenPopup("비밀번호 확인을 6글자 이상 입력해주세요.");
             return false;
         }
 
-        if (Nick == null || Nick.Length < 3)
+        if (Nick == null || Nick.Length < 2)
         {
             _registerErrorHandler(ERegisterError.InvalidNick);
+            OpenPopup("닉네임을 2글자 이상 입력해주세요.");
+            return false;
+        }
+
+        if (Nick.Contains(" "))
+        {
+            _registerErrorHandler(ERegisterError.InvalidNick);
+            OpenPopup("닉네임에 공백은 사용할 수 없습니다.");
+            return false;
+        }
+
+        string Check = Regex.Replace(Nick, @"[^\w\.@-]", "", RegexOptions.Singleline);
+        if (Nick.Equals(Check))
+        {
+            _registerErrorHandler(ERegisterError.InvalidNick);
+            OpenPopup("닉네임에 특수문자는 사용할 수 없습니다.");
             return false;
         }
 
         if (Email == null || Email.Length < 3)
         {
             _registerErrorHandler(ERegisterError.InvalidNick);
+            OpenPopup("이메일을 다시 확인해주세요.");
             return false;
         }
 
         if (!PWCheck.Equals(PW))
         {
             _registerErrorHandler(ERegisterError.InvalidPWCheck);
+            OpenPopup("비밀번호가 일치하지 않습니다.");
             return false;
         }
 

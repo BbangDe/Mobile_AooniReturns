@@ -312,11 +312,11 @@ public class CharacterCtrl : NetworkBehaviour
         {
             if (hit.collider.CompareTag("Obstacle"))
             {
-                transform.position = originaltPos; // Keep the current position
-                char_inMove = false; // Stop movement flag
-                IsWalk = false; // Stop walking animation
+                //transform.position = originaltPos; // Keep the current position
+                //char_inMove = false; // Stop movement flag
+                //IsWalk = false; // Stop walking animation
                                 //rb2d.velocity = 6 * CurrDir;
-                return;
+                //return;
             }
         
         }
@@ -645,6 +645,7 @@ public class CharacterCtrl : NetworkBehaviour
         now_dir = 0;
 
         canWalk = true;
+        originaltPos = transform.position;
 
         yield return null;
     }

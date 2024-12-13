@@ -849,6 +849,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netPlayerObject: {fileID: 6409362478292922955, guid: 21195a1391328714ab6240abe123a7cb, type: 3}
   respawnPos: {fileID: 736969913}
+  count_sfx_ok: 0
+  oni_count: 0
 --- !u!4 &335742062
 Transform:
   m_ObjectHideFlags: 0
@@ -3752,6 +3754,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netPlayerObject: {fileID: 6409362478292922955, guid: b5a5d87f25ca40d47819b61cd6770e9e, type: 3}
   respawnPos: {fileID: 736969913}
+  count_sfx_ok: 0
+  oni_count: 0
 --- !u!4 &944382840
 Transform:
   m_ObjectHideFlags: 0
@@ -3953,7 +3957,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 935b83c06d6d4ba41ade2801b6093850, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6675,6 +6679,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netPlayerObject: {fileID: 6409362478292922955, guid: 659ae490e64d88d4b90e3baca0edd0d8, type: 3}
   respawnPos: {fileID: 736969913}
+  count_sfx_ok: 0
+  oni_count: 0
 --- !u!4 &1306830936
 Transform:
   m_ObjectHideFlags: 0
@@ -6961,6 +6967,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netPlayerObject: {fileID: 6409362478292922955, guid: 99f274f2c1308564aae3b9c588624195, type: 3}
   respawnPos: {fileID: 736969913}
+  count_sfx_ok: 0
+  oni_count: 0
 --- !u!4 &1788357853
 Transform:
   m_ObjectHideFlags: 0

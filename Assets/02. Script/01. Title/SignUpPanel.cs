@@ -28,6 +28,7 @@ public class SignUpPanel : UIBase
         checkInput.contentType = TMP_InputField.ContentType.Password;
     }
 
+
     public override void ClosePanel()
     {
         base.ClosePanel();

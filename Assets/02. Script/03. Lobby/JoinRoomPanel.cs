@@ -27,7 +27,6 @@ public class JoinRoomPanel : UIBase
 
         sessionList = _sessionList;
 
-        Debug.Log($"접속가능방 수 : {_sessionList.Count}");
         for (; i < _sessionList.Count; i++)
         {
             roomBtns[i].SetInfo(_sessionList[i]);

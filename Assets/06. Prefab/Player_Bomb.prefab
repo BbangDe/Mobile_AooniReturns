@@ -251,6 +251,8 @@ MonoBehaviour:
   _CurrState: 0
   _IsWalk: 0
   arrow: {fileID: 8715883189541085358}
+  canChange: 0
+  nowChange: 0
 --- !u!114 &9194704116235038489
 MonoBehaviour:
   m_ObjectHideFlags: 0
