@@ -35,7 +35,20 @@ public class PlayerManager : NetManager
     {
         var randomIndex = Random.Range(0, AllPlayers.Count);
 
+        SetOni(networkObjList[randomIndex].Id);
         RPC_SetOni(networkObjList[randomIndex].Id);
+    }
+
+    public void SetOni(NetworkId characterNetworkId)
+    {
+        for (int i = 0; i < networkObjList.Count; i++)
+        {
+            if (networkObjList[i].Id == characterNetworkId)
+            {
+                characterList[i].SetCharacterState(1);
+                App.Manager.UI.GetPanel<NoticePanel>().NoticeBecomeOni();
+            }
+        }
     }
 
     [Rpc]
@@ -54,6 +67,11 @@ public class PlayerManager : NetManager
     public void SetAllHuman()
     {
         RPC_SetHuman();
+
+        foreach (var character in characterList)
+        {
+            character.SetCharacterState(0);
+        }
     }
 
     [Rpc]
@@ -63,5 +81,44 @@ public class PlayerManager : NetManager
         {
             character.SetCharacterState(0);
         }
+    }
+
+    [Rpc]
+    private void RPC_SetBucket(NetworkId characterNetworkId)
+    {
+        for (int i = 0; i < networkObjList.Count; i++)
+        {
+            if (networkObjList[i].Id == characterNetworkId)
+            {
+                if (characterList[i].CurrState.Equals(CharacterType.Human))
+                {
+                    characterList[i].SetCharacterState(2);
+                }
+                else if (characterList[i].CurrState.Equals(CharacterType.Bucket))
+                {
+                    characterList[i].SetCharacterState(0);
+                }
+            }
+        }
+    }
+
+    public void SetBucket(NetworkId characterNetworkId)
+    {
+        for (int i = 0; i < networkObjList.Count; i++)
+        {
+            if (networkObjList[i].Id == characterNetworkId)
+            {
+                if(characterList[i].CurrState.Equals(CharacterType.Human))
+                {
+                    characterList[i].SetCharacterState(2);
+                }
+                else if (characterList[i].CurrState.Equals(CharacterType.Bucket))
+                {
+                    characterList[i].SetCharacterState(0);
+                }
+            }
+        }
+
+        RPC_SetBucket(characterNetworkId);
     }
 }

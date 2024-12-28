@@ -47,8 +47,9 @@ public class ReadyUIManager : UIManager
         }
         else
         {
-            alertText.text = "2명 이상이어야 플레이 가능합니다";
-            alertPanel.SetActive(true);
+            //alertText.text = "2명 이상이어야 플레이 가능합니다";
+            //alertPanel.SetActive(true);
+            App.Manager.Network.StartGame();
         }
         
     }

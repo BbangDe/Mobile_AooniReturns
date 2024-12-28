@@ -13,7 +13,8 @@ using Unity.VisualScripting;
 public enum CharacterType
 {
     Human,
-    Oni
+    Oni,
+    Bucket
 }
 
 public class CharacterCtrl : NetworkBehaviour
@@ -63,6 +64,7 @@ public class CharacterCtrl : NetworkBehaviour
 
     private OniCtrl oniCtrl;
     private HumanCtrl humanCtrl;
+    private BucketCtrl bucketCtrl;
 
     private JoystickPanel joystick;
     private Animator currAnimator;
@@ -109,6 +111,7 @@ public class CharacterCtrl : NetworkBehaviour
 
         oniCtrl = GetComponentInChildren<OniCtrl>(true);
         humanCtrl = GetComponentInChildren<HumanCtrl>(true);
+        bucketCtrl = GetComponentInChildren<BucketCtrl>(true);
 
         currAnimator = humanCtrl.GetComponent<Animator>();
 
@@ -194,6 +197,11 @@ public class CharacterCtrl : NetworkBehaviour
 
                 humanCtrl.gameObject.SetActive(false);
                 break;
+            case CharacterType.Bucket:
+                bucketCtrl.gameObject.SetActive(true);
+
+                humanCtrl.gameObject.SetActive(false);
+                break;
         }
     }
 
@@ -236,6 +244,7 @@ public class CharacterCtrl : NetworkBehaviour
         {
             oniCtrl.gameObject.SetActive(false);
             humanCtrl.gameObject.SetActive(false);
+            bucketCtrl.gameObject.SetActive(false);
         }
     }
 
@@ -342,6 +351,12 @@ public class CharacterCtrl : NetworkBehaviour
 
         if (canWalk)
         {
+            if (CurrState.Equals(CharacterType.Bucket))
+            {
+                return;
+            }
+
+
             if (CurrDir.x != 0 || CurrDir.y != 0)
             {
                 if(CurrDir.y != 0)
@@ -619,7 +634,6 @@ public class CharacterCtrl : NetworkBehaviour
                     now_pos = transform.position.y;
                 }
 
-                Debug.Log(transform.position);
                 yield return null;
             }
         }

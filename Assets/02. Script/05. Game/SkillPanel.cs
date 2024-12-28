@@ -33,7 +33,7 @@ public class SkillPanel : UIBase
 
     private void OnClickBarrel()
     {
-
+        App.Manager.Player.SetBucket(myCharCtrl.Object.Id);
     }
 
     private IEnumerator WaitForCoolTime()
